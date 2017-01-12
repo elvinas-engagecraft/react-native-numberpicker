@@ -10,6 +10,8 @@ import android.widget.NumberPicker;
 import android.widget.EditText;
 import android.graphics.Color;
 
+import com.facebook.react.bridge.ReactContext;
+
 public class RNNumberPicker extends NumberPicker {
 
     private @Nullable OnChangeListener mOnChangeListener;
@@ -18,23 +20,28 @@ public class RNNumberPicker extends NumberPicker {
     private @Nullable Integer mTextSize;
     private @Nullable Integer mTextColor;
 
+    private ReactContext reactContext;
+
     /**
      * Listener interface for events.
      */
     public interface OnChangeListener {
-        void onValueChange(int value);
+        void onValueChange(int value, int viewId, ReactContext reactContext);
     }
 
-    public RNNumberPicker(Context context) {
+    public RNNumberPicker(ReactContext context) {
         super(context);
+        this.reactContext = context;
     }
 
-    public RNNumberPicker(Context context, AttributeSet attrs) {
+    public RNNumberPicker(ReactContext context, AttributeSet attrs) {
         super(context, attrs);
+        this.reactContext = context;
     }
 
-    public RNNumberPicker(Context context, AttributeSet attrs, int defStyle) {
+    public RNNumberPicker(ReactContext context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.reactContext = context;
     }
 
     public void setKeyboardInputEnabled(boolean enabled) {
@@ -53,7 +60,7 @@ public class RNNumberPicker extends NumberPicker {
                 @Override
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                     if (!mSuppressNextEvent && mOnChangeListener != null) {
-                        mOnChangeListener.onValueChange(newVal);
+                        mOnChangeListener.onValueChange(newVal, getId(), reactContext);
                     }
                     mSuppressNextEvent = false;
                 }

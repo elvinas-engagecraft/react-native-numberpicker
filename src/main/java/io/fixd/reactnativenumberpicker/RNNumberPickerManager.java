@@ -24,8 +24,6 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker>
 
     public static final String REACT_CLASS = "RNNumberPicker";
 
-    private RNNumberPicker view;
-
     @Override
     public String getName() {
         return REACT_CLASS;
@@ -33,8 +31,7 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker>
 
     @Override
     protected RNNumberPicker createViewInstance(ThemedReactContext reactContext) {
-        this.view = new RNNumberPicker(reactContext);
-        return this.view;
+        return new RNNumberPicker(reactContext);
     }
 
     @ReactProp(name = "values")
@@ -65,12 +62,11 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker>
     }
 
     @Override
-    public void onValueChange(int value) {
+    public void onValueChange(int value, int viewId, ReactContext reactContext) {
         WritableMap event = Arguments.createMap();
         event.putInt("value", value);
-        ReactContext reactContext = (ReactContext) view.getContext();
         reactContext.getJSModule(RCTEventEmitter.class)
-                .receiveEvent(view.getId(), "topChange", event);
+                .receiveEvent(viewId, "topChange", event);
     }
 
 
