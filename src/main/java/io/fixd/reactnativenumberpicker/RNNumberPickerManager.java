@@ -56,6 +56,13 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker>
         view.setKeyboardInputEnabled(enabled);
     }
 
+    @ReactProp(name = "showDivider")
+    public void setShowDivider(RNNumberPicker view, Boolean show) {
+        if(!show) {
+            view.disableDivider();
+        }
+    }
+
     @Override
     protected void addEventEmitters(final ThemedReactContext reactContext, final RNNumberPicker picker) {
         picker.setOnChangeListener(this);

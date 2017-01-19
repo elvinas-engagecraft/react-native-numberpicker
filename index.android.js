@@ -49,7 +49,8 @@ class NumberPicker extends Component {
 NumberPicker.defaultProps  = {
 	selectedIndex: 0,
 	height: 100,
-	keyboardInputEnabled: true
+	keyboardInputEnabled: true,
+	showDivider: true
 };
 
 NumberPicker.propTypes = {
@@ -58,7 +59,8 @@ NumberPicker.propTypes = {
 	selectedIndex: PropTypes.number,
 	values: PropTypes.arrayOf(PropTypes.string).isRequired,
 	onSelect: PropTypes.func,
-	keyboardInputEnabled: PropTypes.bool
+	keyboardInputEnabled: PropTypes.bool,
+	showDivider: PropTypes.bool
 };
 
 var NativeNumberPicker = requireNativeComponent('RNNumberPicker', NumberPicker, {

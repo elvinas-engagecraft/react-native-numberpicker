@@ -3,6 +3,7 @@ package io.fixd.reactnativenumberpicker;
 import javax.annotation.Nullable;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +12,8 @@ import android.widget.EditText;
 import android.graphics.Color;
 
 import com.facebook.react.bridge.ReactContext;
+
+import java.lang.reflect.Field;
 
 public class RNNumberPicker extends NumberPicker {
 
@@ -50,6 +53,29 @@ public class RNNumberPicker extends NumberPicker {
         }
         else {
             this.setDescendantFocusability(NumberPicker.FOCUS_AFTER_DESCENDANTS);
+        }
+    }
+
+    public void disableDivider() {
+        Class<?> numberPickerClass = null;
+        try {
+            numberPickerClass = Class.forName("android.widget.NumberPicker");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Field selectionDivider = null;
+        try {
+            selectionDivider = numberPickerClass.getDeclaredField("mSelectionDivider");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            selectionDivider.setAccessible(true);
+            selectionDivider.set(this, null);
+        } catch (IllegalArgumentException | Resources.NotFoundException | IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 
