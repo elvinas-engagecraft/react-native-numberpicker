@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
@@ -61,6 +63,26 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker>
         if(!show) {
             view.disableDivider();
         }
+    }
+
+    @ReactProp(name = ViewProps.COLOR, customType = "Color")
+    public void setColor(RNNumberPicker view, Integer color) {
+        view.setmTextColor(color);
+    }
+
+    @ReactProp(name = ViewProps.FONT_SIZE)
+    public void setFontSize(RNNumberPicker view, Integer fontSize) {
+        view.setmTextSize(fontSize);
+    }
+
+    @ReactProp(name = ViewProps.FONT_FAMILY)
+    public void setFontFamily(RNNumberPicker view, String fontFamily) {
+        view.setmFontFamily(fontFamily);
+    }
+
+    @ReactProp(name = ViewProps.FONT_WEIGHT)
+    public void setFontWeight(RNNumberPicker view, String fontWeight) {
+        view.setmFontWeight(fontWeight);
     }
 
     @Override
