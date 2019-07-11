@@ -37,8 +37,8 @@ class NumberPicker extends Component {
 		return (
 			<NativeNumberPicker
 				ref={REF_PICKER}
-				selected={this.state.selectedIndex}
 				values={this.state.values}
+				selected={this.state.selectedIndex}
 				onChange={this._onChange}
 				style={[{height:this.props.height}, style && style]}
 				{...otherProps}
@@ -57,8 +57,8 @@ NumberPicker.defaultProps  = {
 NumberPicker.propTypes = {
 	...View.propTypes,
 	height: PropTypes.number,
-	selectedIndex: PropTypes.number,
 	values: PropTypes.arrayOf(PropTypes.string).isRequired,
+	selectedIndex: PropTypes.number,
 	onSelect: PropTypes.func,
 	keyboardInputEnabled: PropTypes.bool,
 	showDivider: PropTypes.bool
