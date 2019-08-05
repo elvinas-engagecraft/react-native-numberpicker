@@ -19,6 +19,8 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker>
 
     private static final String REACT_CLASS = "RNNumberPicker";
 
+    private @Nullable Integer mDelayedSelection;
+
     @NonNull
     @Override
     public String getName() {
@@ -34,8 +36,6 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker>
     @SuppressWarnings("unused")
     @ReactProp(name = "values")
     public void setValues(RNNumberPicker view, @Nullable ReadableArray items) {
-        boolean updateStaged = view.getDisplayedValues() == null;
-
         if (items != null) {
             String[] displayValues = new String[items.size()];
             for (int i = 0; i < items.size(); i++) {
@@ -49,16 +49,19 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker>
             view.setDisplayedValues(null);
         }
 
-        if (updateStaged) {
-            view.updateStagedSelection();
+        // check if we have a "delayed" initial value
+        if (mDelayedSelection != null) {
+            view.setValue(mDelayedSelection);
+            mDelayedSelection = null;
         }
     }
 
     @SuppressWarnings("unused")
     @ReactProp(name = "selected")
     public void setValue(RNNumberPicker view, Integer selected) {
+        // do not set the value until we have the values
         if (view.getDisplayedValues() == null) {
-            view.setStagedSelection(selected);
+            mDelayedSelection = selected;
         } else {
             view.setValue(selected);
         }
