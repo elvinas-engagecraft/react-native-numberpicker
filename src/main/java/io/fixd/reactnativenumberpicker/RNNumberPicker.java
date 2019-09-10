@@ -1,25 +1,21 @@
 package io.fixd.reactnativenumberpicker;
 
-import javax.annotation.Nullable;
-
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.NumberPicker;
 import android.widget.EditText;
-import android.graphics.Color;
+import android.widget.NumberPicker;
 
 import com.facebook.react.bridge.ReactContext;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
+
+import javax.annotation.Nullable;
 
 public class RNNumberPicker extends NumberPicker {
 
@@ -64,6 +60,11 @@ public class RNNumberPicker extends NumberPicker {
     }
 
     public void disableDivider() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            setSelectionDividerHeight(0);
+            return;
+        }
+
         Class<?> numberPickerClass = null;
         try {
             numberPickerClass = Class.forName("android.widget.NumberPicker");
@@ -174,6 +175,17 @@ public class RNNumberPicker extends NumberPicker {
     }
 
     private void updateInnerText() {
+        float size = mTextSize == null
+                ? 0
+                : TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mTextSize, getResources().getDisplayMetrics());
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            if (mTextColor != null) setTextColor(mTextColor);
+            if (size > 0)
+                setTextSize(size);
+            return;
+        }
+
         final int count = getChildCount();
         for(int i = 0; i < count; i++){
             View child = getChildAt(i);
@@ -187,9 +199,7 @@ public class RNNumberPicker extends NumberPicker {
                         ((EditText) child).setTextColor(mTextColor);
                     }
                     if(mTextSize != null) {
-                        ((Paint) selectorWheelPaintField.get(this))
-                                .setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                                        mTextSize, getResources().getDisplayMetrics()));
+                        ((Paint) selectorWheelPaintField.get(this)).setTextSize(size);
                         ((EditText) child).setTextSize(mTextSize);
                     }
                     if(mFontFamily != null) {
