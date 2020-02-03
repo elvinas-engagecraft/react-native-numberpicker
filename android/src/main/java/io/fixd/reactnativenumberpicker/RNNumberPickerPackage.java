@@ -12,16 +12,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class RNNumberPickerPackage implements ReactPackage {
-
     @NonNull
     @Override
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
         return Collections.emptyList();
-    }
-
-    @Override
-    public List<Class<? extends JavaScriptModule>> createJSModules() {
-        return null;
     }
 
     @NonNull
