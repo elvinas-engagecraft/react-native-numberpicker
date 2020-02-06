@@ -12,9 +12,10 @@ class NumberPicker extends Component {
 		this._onChange = this._onChange.bind(this);
 	}
 
-	componentWillReceiveProps(props) {
-		this.props = props;
-		this.setState(this._stateFromProps(props))
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.selectedIndex != this.props.selectedIndex || prevProps.values != this.props.values) {
+			this.setState(this._stateFromProps(this.props));
+		}
 	}
 
 	_stateFromProps(props) {
